@@ -12,7 +12,11 @@ Cette API repose sur le framework [API Platform][2] facilitant la création d'AP
 Installation
 ------------
 
+Faire un clone du dépôt et se positionner dans le répertoire créé :
 
+    git clone https://github.com/plecavelier/mybank-api.git
+    cd mybank-api
+    
 
 The API Platform Framework
 ==========================
