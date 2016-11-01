@@ -1,3 +1,19 @@
+MyBank API
+==========
+
+API pour gérer les comptes bancaires, les opérations et les catégories de l'application MyBank.
+Cette API est utilisée par le frontal Angular [MyBank UI][1].
+
+Technologies
+------------
+
+Cette API repose sur le framework [API Platform][2] facilitant la création d'API REST.
+
+Installation
+------------
+
+
+
 The API Platform Framework
 ==========================
 
@@ -142,8 +158,9 @@ Credits
 Created by [Kévin Dunglas][23]. Sponsored by [Les-Tilleuls.coop][30]
 Commercial support available upon request.
 
-[1]:  http://json-ld.org
-[2]:  http://hydra-cg.com
+[1]:  https://github.com/plecavelier/mybank-ui.git
+[2]:  https://api-platform.com/
+
 [3]:  https://getcomposer.org
 [4]:  http://www.hydra-cg.com/
 [5]:  https://symfony.com
