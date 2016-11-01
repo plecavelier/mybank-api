@@ -44,6 +44,10 @@ Concernant les données, il est possible de créer :
 * un utilisateur avec la commande `$ bin/console fos:user:create`
 * ou un jeu de tests en important les fixtures `$ bin/console doctrine:fixtures:load`
 
+Lancer le serveur HTTP :
+
+    $ bin/console server:run
+
 
 The API Platform Framework
 ==========================
