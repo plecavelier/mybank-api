@@ -40,7 +40,9 @@ Créer la base de données :
     $ bin/console doctrine:database:create
     $ bin/console doctrine:schema:create
 
-
+Concernant les données, il est possible de :
+* créer un utilisateur avec la commande `$ bin/console fos:user:create`
+* créer un jeu de tests en important les fixtures `$ bin/console doctrine:fixtures:load`
 
 
 The API Platform Framework
