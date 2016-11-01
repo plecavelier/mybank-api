@@ -9,17 +9,39 @@ Technologies
 
 Cette API repose sur le framework [API Platform][2] facilitant la création d'API REST.
 
+Pré-requis
+----------
+
+* PHP 7
+* Base de données MySQL
+
 Installation
 ------------
 
 Faire un clone du dépôt et se positionner dans le répertoire créé :
 
-    git clone https://github.com/plecavelier/mybank-api.git
-    cd mybank-api
+    $ git clone https://github.com/plecavelier/mybank-api.git
+    $ cd mybank-api
+
+Générer les clés SSH nécessaires pour l'authentification JWT :
+
+    $ mkdir var/jwt
+    $ openssl genrsa -out var/jwt/private.pem -aes256 4096
+    $ openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem
 
 Lancer l'installation avec composer et saisir les paramètres adéquats :
 
-    
+    $ composer install
+
+Le paramètre `jwt_key_pass_phrase` doit correspondre au mot de passe choisi durant la création des clés SSH.
+
+Créer la base de données :
+
+    $ bin/console doctrine:database:create
+    $ bin/console doctrine:schema:create
+
+
+
 
 The API Platform Framework
 ==========================
