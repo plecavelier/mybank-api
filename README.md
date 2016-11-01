@@ -16,6 +16,9 @@ Faire un clone du dépôt et se positionner dans le répertoire créé :
 
     git clone https://github.com/plecavelier/mybank-api.git
     cd mybank-api
+
+Lancer l'installation avec composer et saisir les paramètres adéquats :
+
     
 
 The API Platform Framework

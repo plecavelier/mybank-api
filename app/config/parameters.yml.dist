@@ -2,13 +2,11 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host:     database
+    database_host:     localhost
     database_port:     ~
-    database_name:     api_platform
-    database_user:     api_platform
-    database_password: api_platform
-    # You should uncomment this if you want use pdo_sqlite
-    # database_path: "%kernel.root_dir%/data.db3"
+    database_name:     mybank
+    database_user:     root
+    database_password: ~
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
@@ -18,9 +16,9 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    cors_allow_origin: http://localhost
+    cors_allow_origin: http://localhost:4200
 
     jwt_private_key_path: %kernel.root_dir%/../var/jwt/private.pem
     jwt_public_key_path:  %kernel.root_dir%/../var/jwt/public.pem
-    jwt_key_pass_phrase:  G8GtDVyC5L0yWsdodiw73rnYbUDO3jPEUpDB78YXxfcBQaWFrJ
+    jwt_key_pass_phrase:  pass_phrase
     jwt_token_ttl:        3600
