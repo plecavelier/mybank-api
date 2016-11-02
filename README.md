@@ -48,6 +48,30 @@ Lancer le serveur HTTP :
 
     $ bin/console server:run
 
+Tests
+-----
+
+Faire un appel à l'API :
+
+    $ curl http://127.0.0.1:8000/api
+
+Vous devriez obtenir la réponse `{"code":401,"message":"JWT Token not found"}` car l'authentification à l'API n'a pas été effectuée.
+
+Lancer la requête suivante au serveur pour récupérer un token :
+
+    $ curl -X POST http://localhost:8000/login_check -d username=username -d password=password
+
+Cet utilisateur correspond à celui importé par les fixtures.
+Si vous avez créé votre propre utilisateur, remplacer les paramètres `username` et `password`.
+
+Refaire un appel à l'API en renseignant le token dans le header `Authorization` :
+
+    $ curl --header "Authorization: Bearer {token}" http://127.0.0.1:8000/api
+
+Vous devriez avoir la réponse suivante de l'API `{"@context":"/api/contexts/Entrypoint","@id":"/api","@type":"Entrypoint","account":"/api/accounts","operation":"/api/operations","tag":"/api/tags"}`.
+
+l'API est désormais utilisable !
+
 
 The API Platform Framework
 ==========================
