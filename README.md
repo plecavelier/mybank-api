@@ -72,6 +72,13 @@ Vous devriez avoir la réponse suivante de l'API `{"@context":"/api/contexts/Ent
 
 l'API est désormais utilisable !
 
+Il est également possible d'accéder à une interface web permettant de visualiser la structure de l'API et d'effectuer des requêtes de test.
+Pour cela, installer un module sur votre navigateur favori permettant d'ajouter des headers à la volée (par exemple [Modify Headers][3] pour Firefox).
+Puis, ajouter le header `Authorization` avec le token et accéder à l'URL `http://127.0.0.1:8000/api` dans votre navigateur pour accéder à l'interface suivante :
+
+![API Platform UI](doc/api-platform-ui.png)
+
+
 
 The API Platform Framework
 ==========================
@@ -219,8 +226,8 @@ Commercial support available upon request.
 
 [1]:  https://github.com/plecavelier/mybank-ui.git
 [2]:  https://api-platform.com/
+[3]:  https://addons.mozilla.org/fr/firefox/addon/modify-headers/
 
-[3]:  https://getcomposer.org
 [4]:  http://www.hydra-cg.com/
 [5]:  https://symfony.com
 [6]:  http://www.doctrine-project.org
