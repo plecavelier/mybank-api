@@ -13,7 +13,7 @@ Pré-requis
 ----------
 
 * PHP 7
-* Base de données MySQL
+* MySQL
 
 Installation
 ------------

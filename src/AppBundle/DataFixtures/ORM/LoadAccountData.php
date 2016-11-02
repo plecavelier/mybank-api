@@ -19,6 +19,7 @@ class LoadAccountData extends AbstractFixture implements FixtureInterface, Order
             $account->setName('Compte bancaire n°'. $i);
             $account->setDescription('Description du compte bancaire n°'.$i);
             $account->setNumber(str_shuffle('0123456789'));
+            $account->setUser($this->getReference('user'));
             $this->addReference('account-'.$i, $account);
             $manager->persist($account);
         }

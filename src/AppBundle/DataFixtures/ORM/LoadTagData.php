@@ -22,6 +22,7 @@ class LoadTagData extends AbstractFixture implements FixtureInterface, OrderedFi
             $tag->setDescription('Description de la catégorie n°'.$i);
             $tag->setIcon($icons[array_rand($icons)]);
             $tag->setColor($colors[array_rand($colors)]);
+            $tag->setUser($this->getReference('user'));
             $this->addReference('tag-'.$i, $tag);
             $manager->persist($tag);
         }
