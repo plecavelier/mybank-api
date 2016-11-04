@@ -3,12 +3,16 @@
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Tag
  *
- * @ApiResource
+ * @ApiResource(attributes={
+ *     "normalization_context"={"groups"={"read"}},
+ *     "denormalization_context"={"groups"={"write"}}
+ * })
  * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TagRepository")
  */
@@ -17,6 +21,7 @@ class Tag
     /**
      * @var int
      *
+     * @Groups({"read"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -26,6 +31,7 @@ class Tag
     /**
      * @var string
      *
+     * @Groups({"read", "write"})
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
@@ -33,6 +39,7 @@ class Tag
     /**
      * @var string
      *
+     * @Groups({"read", "write"})
      * @ORM\Column(name="description", type="string", length=250)
      */
     private $description;
@@ -40,6 +47,7 @@ class Tag
     /**
      * @var string
      *
+     * @Groups({"read", "write"})
      * @ORM\Column(name="icon", type="string", length=20, nullable=true)
      */
     private $icon;
@@ -47,6 +55,7 @@ class Tag
     /**
      * @var string
      *
+     * @Groups({"read", "write"})
      * @ORM\Column(name="color", type="string", length=20, nullable=true)
      */
     private $color;
