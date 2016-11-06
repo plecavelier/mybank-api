@@ -24,3 +24,15 @@ services:
             - { name: security.voter }
         public: false
         autowire: true
+
+    app.doctrine.orm.query_extension.current_user:
+        class: AppBundle\Doctrine\ORM\Extension\CurrentUserExtension
+        public: false
+        arguments:
+            - '@api_platform.metadata.property.name_collection_factory'
+            - '@api_platform.metadata.property.metadata_factory'
+            - '@security.token_storage'
+            - '@security.authorization_checker'
+        tags:
+            - { name: api_platform.doctrine.orm.query_extension.collection, priority: 9 }
+            - { name: api_platform.doctrine.orm.query_extension.item }

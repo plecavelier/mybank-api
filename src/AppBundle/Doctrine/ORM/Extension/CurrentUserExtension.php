@@ -7,7 +7,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Core\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
+use AppBundle\Entity\Account;
 use AppBundle\Entity\Tag;
+use AppBundle\Entity\Operation;
 use AppBundle\Entity\User;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Expr;
@@ -53,10 +55,22 @@ final class CurrentUserExtension implements QueryCollectionExtensionInterface, Q
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass)
     {
         $user = $this->token->getToken()->getUser();
-        if ($user instanceof User && Tag::class === $resourceClass) {
-            $rootAlias = $queryBuilder->getRootAliases()[0];
-            $queryBuilder->andWhere(sprintf('%s.user = :current_user', $rootAlias));
-            $queryBuilder->setParameter('current_user', $user->getId());
+        if ($user instanceof User) {
+            switch ($resourceClass) {
+                case Tag::class:
+                case Account::class:
+                    $rootAlias = $queryBuilder->getRootAliases()[0];
+                    $queryBuilder->andWhere(sprintf('%s.user = :current_user', $rootAlias));
+                    $queryBuilder->setParameter('current_user', $user->getId());
+                    break;
+
+                case Operation::class:
+                    $rootAlias = $queryBuilder->getRootAliases()[0];
+                    $queryBuilder->leftJoin(sprintf('%s.account', $rootAlias), 'a')
+                        ->where('a.user = :current_user');
+                    $queryBuilder->setParameter('current_user', $user->getId());
+                    break;
+            }
         }
     }
 }
