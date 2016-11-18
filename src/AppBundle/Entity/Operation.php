@@ -58,7 +58,7 @@ class Operation
      * @var Account
      *
      * @ORM\ManyToOne(targetEntity="Account")
-     * @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $account;
 
