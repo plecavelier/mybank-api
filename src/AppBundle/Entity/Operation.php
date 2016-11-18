@@ -65,8 +65,8 @@ class Operation
     /**
      * @var Tag
      *
-     * @ORM\ManyToOne(targetEntity="Tag")
-     * @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Tag", inversedBy="operations")
+     * @ORM\JoinColumn(name="tag_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $tag;
 
