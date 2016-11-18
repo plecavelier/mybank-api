@@ -11,7 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ApiResource(attributes={
  *     "normalization_context"={"groups"={"read"}},
- *     "denormalization_context"={"groups"={"write"}}
+ *     "denormalization_context"={"groups"={"write"}},
+ *     "pagination_enabled"=false
  * })
  * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TagRepository")
