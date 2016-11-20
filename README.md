@@ -53,28 +53,28 @@ Tests
 
 Faire un appel à l'API :
 
-    $ curl http://127.0.0.1:8000/api
+    $ curl http://127.0.0.1:8000
 
 Vous devriez obtenir la réponse `{"code":401,"message":"JWT Token not found"}` car l'authentification à l'API n'a pas été effectuée.
 
 Lancer la requête suivante au serveur pour récupérer un token :
 
-    $ curl -X POST http://localhost:8000/login_check -d username=username -d password=password
+    $ curl -X POST http://localhost:8000/login -d username=username -d password=password
 
 Cet utilisateur correspond à celui importé par les fixtures.
 Si vous avez créé votre propre utilisateur, remplacer les paramètres `username` et `password`.
 
 Refaire un appel à l'API en renseignant le token dans le header `Authorization` :
 
-    $ curl --header "Authorization: Bearer {token}" http://127.0.0.1:8000/api
+    $ curl --header "Authorization: Bearer {token}" http://127.0.0.1:8000
 
-Vous devriez avoir la réponse suivante de l'API `{"@context":"/api/contexts/Entrypoint","@id":"/api","@type":"Entrypoint","account":"/api/accounts","operation":"/api/operations","tag":"/api/tags"}`.
+Vous devriez avoir la réponse suivante de l'API `{"@context":"/contexts/Entrypoint","@id":"/","@type":"Entrypoint","account":"/accounts","operation":"/operations","tag":"/tags"}`.
 
 l'API est désormais utilisable !
 
 Il est également possible d'accéder à une interface web permettant de visualiser la structure de l'API et d'effectuer des requêtes de test.
 Pour cela, installer un module sur votre navigateur favori permettant d'ajouter des headers à la volée (par exemple [Modify Headers][3] pour Firefox).
-Puis, ajouter le header `Authorization` avec le token et accéder à l'URL `http://127.0.0.1:8000/api` dans votre navigateur.
+Puis, ajouter le header `Authorization` avec le token et accéder à l'URL `http://127.0.0.1:8000` dans votre navigateur.
 
 Credits
 -------

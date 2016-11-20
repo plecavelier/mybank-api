@@ -1,5 +1,5 @@
 api:
-    prefix: 'api'
+    prefix: ''
     resource: '.'
     type:     'api_platform'
 
@@ -7,5 +7,5 @@ app:
     resource: '@AppBundle/Action/'
     type:     'annotation'
 
-api_login_check:
-    path: /login_check
+api_login:
+    path: /login
