@@ -88,3 +88,10 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: AppBundle\Entity\User
+
+api_platform:
+    collection:
+        pagination:
+            client_items_per_page: true
+            items_per_page_parameter_name: itemsPerPage
+            items_per_page: 50

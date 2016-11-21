@@ -10,7 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ApiResource(attributes={
  *     "pagination_enabled"=true,
- *     "pagination_items_per_page"=100
+ *     "pagination_client_enabled"=true,
+ *     "pagination_client_items_per_page"=true,
+ *     "pagination_items_per_page"=100,
+ *     "filters"={"operation.order"}
  * })
  * @ORM\Table(name="operation")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OperationRepository")

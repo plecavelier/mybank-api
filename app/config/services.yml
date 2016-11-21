@@ -4,6 +4,10 @@ parameters:
 #    parameter_name: value
 
 services:
+    app.operation_manager:
+        class: AppBundle\Manager\OperationManager
+        autowire: true
+
     app.account_voter:
         class: AppBundle\Security\AccountVoter
         tags:
@@ -36,3 +40,8 @@ services:
         tags:
             - { name: api_platform.doctrine.orm.query_extension.collection, priority: 9 }
             - { name: api_platform.doctrine.orm.query_extension.item }
+
+    operation.order_filter:
+        parent:    'api_platform.doctrine.orm.order_filter'
+        arguments: [ { date: ~ } ]
+        tags:      [ { name: 'api_platform.filter', id: 'operation.order' } ]
