@@ -41,7 +41,12 @@ services:
             - { name: api_platform.doctrine.orm.query_extension.collection, priority: 9 }
             - { name: api_platform.doctrine.orm.query_extension.item }
 
-    operation.order_filter:
-        parent:    'api_platform.doctrine.orm.order_filter'
+    operation.date_filter:
+        parent:    'api_platform.doctrine.orm.date_filter'
         arguments: [ { date: ~ } ]
-        tags:      [ { name: 'api_platform.filter', id: 'operation.order' } ]
+        tags:      [ { name: 'api_platform.filter', id: 'operation.date_filter' } ]
+
+    operation.search_filter:
+        parent:    'api_platform.doctrine.orm.search_filter'
+        arguments: [ { name: 'ipartial' } ]
+        tags:      [ { name: 'api_platform.filter', id: 'operation.search_filter' } ]

@@ -67,7 +67,7 @@ final class CurrentUserExtension implements QueryCollectionExtensionInterface, Q
                 case Operation::class:
                     $rootAlias = $queryBuilder->getRootAliases()[0];
                     $queryBuilder->leftJoin(sprintf('%s.account', $rootAlias), 'a')
-                        ->where('a.user = :current_user');
+                        ->andWhere('a.user = :current_user');
                     $queryBuilder->setParameter('current_user', $user->getId());
                     break;
             }
