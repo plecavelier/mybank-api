@@ -50,3 +50,13 @@ services:
         parent:    'api_platform.doctrine.orm.search_filter'
         arguments: [ { name: 'ipartial' } ]
         tags:      [ { name: 'api_platform.filter', id: 'operation.search_filter' } ]
+
+    operation.custom_list_filter:
+        class: 'AppBundle\Filter\CustomListFilter'
+        arguments:
+            - '@doctrine'
+            - '@request_stack'
+            - '@logger'
+            - { account.id: ~, tag.id: ~ }
+        tags:
+            - { name: 'api_platform.filter', id: 'operation.custom_list_filter' }
