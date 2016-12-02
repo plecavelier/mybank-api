@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     "pagination_client_enabled"=true,
  *     "pagination_client_items_per_page"=true,
  *     "pagination_items_per_page"=100,
- *     "filters"={"operation.date_filter", "operation.search_filter", "operation.custom_list_filter"}
+ *     "filters"={"operation.date_filter", "operation.search_filter", "operation.custom_list_filter", "operation.order_filter"}
  * })
  * @ORM\Table(name="operation")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OperationRepository")

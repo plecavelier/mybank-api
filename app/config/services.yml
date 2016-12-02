@@ -51,6 +51,11 @@ services:
         arguments: [ { name: 'ipartial' } ]
         tags:      [ { name: 'api_platform.filter', id: 'operation.search_filter' } ]
 
+    operation.order_filter:
+        parent:    'api_platform.doctrine.orm.order_filter'
+        arguments: [ { date: ~ } ]
+        tags:      [ { name: 'api_platform.filter', id: 'operation.order_filter' } ]
+
     operation.custom_list_filter:
         class: 'AppBundle\Filter\CustomListFilter'
         arguments:
