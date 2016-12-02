@@ -4,11 +4,13 @@ namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Operation
  *
  * @ApiResource(attributes={
+ *     "normalization_context"={"groups"={"read_operation"}},
  *     "pagination_enabled"=true,
  *     "pagination_client_enabled"=true,
  *     "pagination_client_items_per_page"=true,
@@ -23,6 +25,7 @@ class Operation
     /**
      * @var int
      *
+     * @Groups({"read_operation"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -32,6 +35,7 @@ class Operation
     /**
      * @var \DateTime
      *
+     * @Groups({"read_operation"})
      * @ORM\Column(name="date", type="date")
      */
     private $date;
@@ -39,6 +43,7 @@ class Operation
     /**
      * @var string
      *
+     * @Groups({"read_operation"})
      * @ORM\Column(name="name", type="string", length=100)
      */
     private $name;
@@ -46,6 +51,7 @@ class Operation
     /**
      * @var string
      *
+     * @Groups({"read_operation"})
      * @ORM\Column(name="description", type="string", length=250)
      */
     private $description;
@@ -53,6 +59,7 @@ class Operation
     /**
      * @var int
      *
+     * @Groups({"read_operation"})
      * @ORM\Column(name="amount", type="integer")
      */
     private $amount;
@@ -60,6 +67,7 @@ class Operation
     /**
      * @var Account
      *
+     * @Groups({"read_operation"})
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
@@ -68,6 +76,7 @@ class Operation
     /**
      * @var Tag
      *
+     * @Groups({"read_operation"})
      * @ORM\ManyToOne(targetEntity="Tag", inversedBy="operations")
      * @ORM\JoinColumn(name="tag_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */

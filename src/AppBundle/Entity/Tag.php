@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * Tag
  *
  * @ApiResource(attributes={
- *     "normalization_context"={"groups"={"read"}},
- *     "denormalization_context"={"groups"={"write"}},
+ *     "normalization_context"={"groups"={"read_tag"}},
+ *     "denormalization_context"={"groups"={"write_tag"}},
  *     "pagination_enabled"=false
  * })
  * @ORM\Table(name="tag")
@@ -22,7 +22,7 @@ class Tag
     /**
      * @var int
      *
-     * @Groups({"read"})
+     * @Groups({"read_tag", "read_operation"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -32,7 +32,7 @@ class Tag
     /**
      * @var string
      *
-     * @Groups({"read", "write"})
+     * @Groups({"read_tag", "write_tag", "read_operation"})
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
@@ -40,7 +40,7 @@ class Tag
     /**
      * @var string
      *
-     * @Groups({"read", "write"})
+     * @Groups({"read_tag", "write_tag"})
      * @ORM\Column(name="description", type="string", length=250)
      */
     private $description;
@@ -48,7 +48,7 @@ class Tag
     /**
      * @var string
      *
-     * @Groups({"read", "write"})
+     * @Groups({"read_tag", "write_tag", "read_operation"})
      * @ORM\Column(name="icon", type="string", length=20, nullable=true)
      */
     private $icon;
@@ -56,7 +56,7 @@ class Tag
     /**
      * @var string
      *
-     * @Groups({"read", "write"})
+     * @Groups({"read_tag", "write_tag", "read_operation"})
      * @ORM\Column(name="color", type="string", length=20, nullable=true)
      */
     private $color;

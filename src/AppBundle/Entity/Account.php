@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * Account
  *
  * @ApiResource(attributes={
- *     "normalization_context"={"groups"={"read"}},
- *     "denormalization_context"={"groups"={"write"}},
+ *     "normalization_context"={"groups"={"read_account"}},
+ *     "denormalization_context"={"groups"={"write_account"}},
  *     "pagination_enabled"=false
  * })
  * @ORM\Table(name="account")
@@ -22,7 +22,7 @@ class Account
     /**
      * @var int
      *
-     * @Groups({"read"})
+     * @Groups({"read_account", "read_operation"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -32,7 +32,7 @@ class Account
     /**
      * @var string
      *
-     * @Groups({"read", "write"})
+     * @Groups({"read_account", "write_account", "read_operation"})
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
@@ -40,7 +40,7 @@ class Account
     /**
      * @var string
      *
-     * @Groups({"read", "write"})
+     * @Groups({"read_account", "write_account"})
      * @ORM\Column(name="description", type="string", length=250)
      */
     private $description;
@@ -48,7 +48,7 @@ class Account
     /**
      * @var string
      *
-     * @Groups({"read", "write"})
+     * @Groups({"read_account", "write_account"})
      * @ORM\Column(name="number", type="string", length=50)
      */
     private $number;
