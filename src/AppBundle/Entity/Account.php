@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Operation;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
@@ -60,6 +61,20 @@ class Account
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;
+
+    /**
+     * @var array
+     *
+     * @ORM\OneToMany(targetEntity="Operation", mappedBy="account")
+     */
+    private $operations;
+
+    /**
+     * @var int
+     *
+     * @Groups({"read_account"})
+     */
+    private $balance;
 
 
     /**
@@ -166,6 +181,54 @@ class Account
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set operations
+     *
+     * @param array $operations
+     *
+     * @return Account
+     */
+    public function setOperations($operations)
+    {
+        $this->operations = $operations;
+
+        return $this;
+    }
+
+    /**
+     * Get operations
+     *
+     * @return array
+     */
+    public function getOperations()
+    {
+        return $this->operations;
+    }
+
+    /**
+     * Set balance
+     *
+     * @param int $balance
+     *
+     * @return Account
+     */
+    public function setBalance($balance)
+    {
+        $this->balance = $balance;
+
+        return $this;
+    }
+
+    /**
+     * Get balance
+     *
+     * @return int
+     */
+    public function getBalance()
+    {
+        return $this->balance;
     }
 }
 

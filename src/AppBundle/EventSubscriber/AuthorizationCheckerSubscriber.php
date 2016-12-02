@@ -38,7 +38,7 @@ final class AuthorizationCheckerSubscriber implements EventSubscriberInterface
         $result = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
-        if ($result instanceof Paginator) {
+        if ($result instanceof Paginator || is_array($result)) {
             foreach ($result as $item) {
                 if ($this->isApiResource($item) && !$this->authorizationChecker->isGranted($method, $item)) {
                     throw new AccessDeniedException();

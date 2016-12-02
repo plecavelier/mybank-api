@@ -68,7 +68,7 @@ class Operation
      * @var Account
      *
      * @Groups({"read_operation"})
-     * @ORM\ManyToOne(targetEntity="Account")
+     * @ORM\ManyToOne(targetEntity="Account", inversedBy="operations")
      * @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $account;
