@@ -10,12 +10,23 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Operation
  *
  * @ApiResource(attributes={
- *     "normalization_context"={"groups"={"read_operation"}},
- *     "pagination_enabled"=true,
- *     "pagination_client_enabled"=true,
- *     "pagination_client_items_per_page"=true,
- *     "pagination_items_per_page"=100,
- *     "filters"={"operation.date_filter", "operation.search_filter", "operation.custom_list_filter", "operation.order_filter"}
+ *     "normalization_context"={"groups"={"read_operation"}}
+ * }, collectionOperations={
+ *     "get"={
+ *         "method"="GET",
+ *         "pagination_enabled"=true,
+ *         "pagination_client_enabled"=true,
+ *         "pagination_client_items_per_page"=true,
+ *         "pagination_items_per_page"=100,
+ *         "filters"={"operation.date_filter", "operation.search_filter", "operation.custom_list_filter", "operation.order_filter"}
+ *     },
+ *     "post"={"method"="POST"},
+ *     "total"={
+ *         "method"="GET",
+ *         "route_name"="operation_total_get",
+ *         "pagination_enabled"=false,
+ *         "filters"={"operation.date_filter", "operation.search_filter", "operation.custom_list_filter"}
+ *     }
  * })
  * @ORM\Table(name="operation")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OperationRepository")

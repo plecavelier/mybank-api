@@ -4,6 +4,10 @@ parameters:
 #    parameter_name: value
 
 services:
+    app.account_manager:
+        class: AppBundle\Manager\AccountManager
+        autowire: true
+
     app.operation_manager:
         class: AppBundle\Manager\OperationManager
         autowire: true
@@ -41,6 +45,12 @@ services:
             - { name: api_platform.doctrine.orm.query_extension.collection, priority: 9 }
             - { name: api_platform.doctrine.orm.query_extension.item }
 
+    app.doctrine.orm.query_extension.operation_total_extension:
+        class: AppBundle\Doctrine\ORM\Extension\OperationTotalExtension
+        public: false
+        tags:
+            - { name: api_platform.doctrine.orm.query_extension.collection, priority: 9 }
+
     operation.date_filter:
         parent:    'api_platform.doctrine.orm.date_filter'
         arguments: [ { date: ~ } ]
@@ -65,3 +75,7 @@ services:
             - { account.id: ~, tag.id: ~ }
         tags:
             - { name: 'api_platform.filter', id: 'operation.custom_list_filter' }
+
+    operation_chart_data.search_filter:
+        class: 'AppBundle\Filter\OperationChartDataFilter'
+        tags:      [ { name: 'api_platform.filter', id: 'operation_chart_data.filter' } ]

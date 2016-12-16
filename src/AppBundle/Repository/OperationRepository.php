@@ -13,39 +13,68 @@ use AppBundle\Entity\OperationYearMonth;
 class OperationRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function findAllOperationYearMonths(User $user) {
-        // TODO : refactoring
-        $sql = '
-            SELECT DISTINCT YEAR(o.date) AS year, MONTH(o.date) AS month
-            FROM operation o
-            LEFT JOIN account a ON o.account_id = a.id
-            WHERE a.user_id = '.$user->getId().'
-            ORDER BY o.date ASC';
-        $query = $this->_em->getConnection()->query($sql);
+    public function findAllYearMonthTuples(User $user) {
+        $queryBuilder = $this->_em->createQueryBuilder();
+        $queryBuilder->select('DISTINCT YEAR(o.date) AS year, MONTH(o.date) AS month')
+            ->from('AppBundle:Operation', 'o')
+            ->leftJoin('o.account', 'a')
+            ->where('a.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('o.date');
 
-        $result = [];
-        while ($row = $query->fetch()) {
-            $item = new OperationYearMonth();
-            $item->setYear($row['year']);
-            $item->setMonth($row['month']);
-            $result[] = $item;
-        }
-        return $result;
+        return $queryBuilder->getQuery()->getResult();
     }
 
-    public function sumAmountByAccount(User $user, Account $account = null) {
-        // TODO : refactoring
+    public function sumAmountByAccount(array $accountIds) {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('a.id, SUM(o.amount) AS balance')
            ->from('AppBundle:Operation', 'o')
            ->leftJoin('o.account', 'a')
-           ->where('a.user = :user')
+           ->where('a.id IN (:accounts)')
            ->groupBy('o.account')
-           ->setParameter('user', $user);
-        if ($account != null) {
-            $queryBuilder->addWhere('a = :account')
-                ->setParameter('account', $account);
+           ->setParameter('accounts', $accountIds);
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function sumAmountByPeriod(User $user, string $period = null, array $accountIds = null, array $tagIds = null) {
+        $queryBuilder = $this->_em->createQueryBuilder();
+        $queryBuilder->select('SUM(o.amount) AS amount')
+            ->from('AppBundle:Operation', 'o')
+            ->leftJoin('o.account', 'a')
+            ->where('a.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('date')
+            ->groupBy('date');
+
+        if ($accountIds && count($accountIds) > 0) {
+            $queryBuilder->andWhere('a.id in (:accounts)');
+            $queryBuilder->setParameter('accounts', $accountIds);
         }
-        return $queryBuilder->getQuery()->getArrayResult();
+
+        if ($tagIds && count($tagIds) > 0) {
+            $queryBuilder->leftJoin('o.tag', 't');
+            $queryBuilder->andWhere('t.id in (:tags)');
+            $queryBuilder->setParameter('tags', $tagIds);
+        }
+
+        switch ($period) {
+            case 'year':
+            case 'YEAR':
+                $queryBuilder->addSelect("DATE_FORMAT(o.date, '%Y-01-01') AS date");
+                break;
+
+            case 'quarter':
+            case 'QUARTER':
+                $queryBuilder->addSelect("CONCAT(YEAR(o.date), '-', LPAD((QUARTER(o.date) * 3 - 2), 2, '0'), '-01') AS date");
+                break;
+
+            case 'month':
+            case 'MONTH':
+            default:
+                $queryBuilder->addSelect("DATE_FORMAT(o.date, '%Y-%m-01') AS date");
+                break;
+        }
+        
+        return $queryBuilder->getQuery()->getResult();
     }
 }

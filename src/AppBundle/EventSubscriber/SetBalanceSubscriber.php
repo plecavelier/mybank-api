@@ -11,25 +11,26 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Paginator;
 use Psr\Log\LoggerInterface;
-use AppBundle\Manager\OperationManager;
+use AppBundle\Manager\AccountManager;
 
 final class SetBalanceSubscriber implements EventSubscriberInterface
 {
-    private $operationManager;
+    private $accountManager;
     private $token;
     private $logger;
 
-    public function __construct(OperationManager $operationManager, TokenStorageInterface $token, LoggerInterface $logger)
+    public function __construct(AccountManager $accountManager, TokenStorageInterface $token, LoggerInterface $logger)
     {
-        $this->operationManager = $operationManager;
+        $this->accountManager = $accountManager;
         $this->token = $token;
         $this->logger = $logger;
     }
 
     public static function getSubscribedEvents()
     {
+        // TODO : change event afer persist doctrine
         return [
-            KernelEvents::VIEW => ['setBalance', 80],
+            KernelEvents::VIEW => ['setBalance', 30],
         ];
     }
 
@@ -41,21 +42,9 @@ final class SetBalanceSubscriber implements EventSubscriberInterface
 
         $balances = null;
         if ($result instanceof Paginator || is_array($result)) {
-            foreach ($result as $item) {
-                if ($item instanceof Account) {
-                    if ($balances == null) {
-                        $balances = $this->operationManager->getAccountBalances($user);
-                    }
-                    if (isset($balances[$item->getId()])) {
-                        $item->setBalance($balances[$item->getId()]);
-                    }
-                }
-            }
+            $this->accountManager->completeBalances($result);
         } elseif ($result instanceof Account) {
-            $balances = $this->operationManager->getAccountBalances($user, $result);            
-            if (isset($balances[$result->getId()])) {
-                $result->setBalance($balances[$result->getId()]);
-            }
+            $this->accountManager->completeBalances([$result]);
         }
     }
 }

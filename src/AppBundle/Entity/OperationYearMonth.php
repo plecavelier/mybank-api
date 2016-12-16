@@ -24,6 +24,11 @@ class OperationYearMonth
      */
     private $month;
 
+    public function __construct($year, $month) {
+        $this->year = $year;
+        $this->month = $month;
+    }
+
     /**
      * Set year
      *

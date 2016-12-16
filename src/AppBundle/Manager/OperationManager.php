@@ -4,6 +4,8 @@ namespace AppBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\User;
+use AppBundle\Entity\OperationChartData;
+use AppBundle\Entity\OperationYearMonth;
 use Psr\Log\LoggerInterface;
 use AppBundle\Entity\Account;
 
@@ -18,17 +20,36 @@ class OperationManager
         $this->logger = $logger;
     }
 
-    public function getAllOperationYearMonths(User $user) {
-        return $this->em->getRepository('AppBundle:Operation')->findAllOperationYearMonths($user);
+    public function getOperationYearMonths(User $user): array {
+        $result = $this->em->getRepository('AppBundle:Operation')->findAllYearMonthTuples($user);
+
+        $operationYearMonths = array_map(function($row) {
+            return new OperationYearMonth($row['year'], $row['month']);
+        }, $result);
+
+        return $operationYearMonths;
     }
 
-    public function getAccountBalances(User $user, Account $account = null) {
-        // TODO : refactoring
-        $result = $this->em->getRepository('AppBundle:Operation')->sumAmountByAccount($user);
-        $map = array();
-        foreach ($result as $item) {
-            $map[$item['id']] = $item['balance'];
+    public function getOperationChartDatas(User $user, string $period = null, string $accountsParam = null, string $tagsParam = null): array {
+        
+        $accountIds = null;
+        $accountsParam = preg_replace('# +#', '', $accountsParam);
+        if ($accountsParam != '') {
+            $accountIds = explode(',', $accountsParam);
         }
-        return $map;
+
+        $tagIds = null;
+        $tagsParam = preg_replace('# +#', '', $tagsParam);
+        if ($tagsParam != '') {
+            $tagIds = explode(',', $tagsParam);
+        }
+
+        $result = $this->em->getRepository('AppBundle:Operation')->sumAmountByPeriod($user, $period, $accountIds, $tagIds);
+
+        $operationChartDatas = array_map(function($row) {
+            return new OperationChartData(new \DateTime($row['date']), $row['amount']);
+        }, $result);
+
+        return $operationChartDatas;
     }
 }

@@ -58,6 +58,15 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        dql:
+            datetime_functions:
+                DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat
+                MONTH: DoctrineExtensions\Query\Mysql\Month
+                QUARTER: DoctrineExtensions\Query\Mysql\Quarter
+                YEAR: DoctrineExtensions\Query\Mysql\Year
+
+            string_functions:
+                LPAD: DoctrineExtensions\Query\Mysql\Lpad
 
 # Swiftmailer Configuration
 swiftmailer:
