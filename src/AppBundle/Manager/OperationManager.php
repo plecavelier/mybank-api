@@ -52,4 +52,15 @@ class OperationManager
 
         return $operationChartDatas;
     }
+
+    public function import(string $format, string $content) {
+
+        // TODO : utiliser format avec design pattern factory pour gérer différents formats
+        $operations = $this->parseOfx($content);
+    }
+
+    private function parseOfx(string $content): array {
+        // TODO : utiliser code existant
+        return [];
+    }
 }

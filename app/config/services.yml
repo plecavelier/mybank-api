@@ -4,6 +4,10 @@ parameters:
 #    parameter_name: value
 
 services:
+    app.operation_import_ofx:
+        class: AppBundle\Service\Import\OFXMoneyImport
+        autowire: true
+
     app.account_manager:
         class: AppBundle\Manager\AccountManager
         autowire: true
