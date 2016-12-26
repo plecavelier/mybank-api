@@ -11,7 +11,7 @@ use AppBundle\Entity\Operation;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Expr;
 
-final class OperationTotalExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
+final class OperationTotalExtension implements QueryCollectionExtensionInterface
 {
 
     /**
@@ -23,13 +23,6 @@ final class OperationTotalExtension implements QueryCollectionExtensionInterface
             $rootAlias = $queryBuilder->getRootAliases()[0];
             $queryBuilder->select(sprintf('SUM(%s.amount) AS total', $rootAlias));
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function applyToItem(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, array $identifiers, string $operationName = null, array $context = [])
-    {
     }
 }
 
