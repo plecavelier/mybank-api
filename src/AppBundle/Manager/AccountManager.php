@@ -18,6 +18,10 @@ class AccountManager
         $this->logger = $logger;
     }
 
+    public function getByNumber(string $number) {
+        return $this->em->getRepository('AppBundle:Account')->findOneByNumber($number);
+    }
+
     public function completeBalances($accounts) {
 
         $accountsMap = [];

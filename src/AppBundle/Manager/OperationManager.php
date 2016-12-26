@@ -8,16 +8,20 @@ use AppBundle\Entity\OperationChartData;
 use AppBundle\Entity\OperationYearMonth;
 use Psr\Log\LoggerInterface;
 use AppBundle\Entity\Account;
+use AppBundle\Entity\Operation;
+use AppBundle\Manager\AccountManager;
 
 class OperationManager
 {
     private $em;
     private $logger;
+    private $accountManager;
 
-    public function __construct(EntityManager $em, LoggerInterface $logger)
+    public function __construct(EntityManager $em, LoggerInterface $logger, AccountManager $accountManager)
     {
         $this->em = $em;
         $this->logger = $logger;
+        $this->accountManager = $accountManager;
     }
 
     public function getOperationYearMonths(User $user): array {
@@ -57,10 +61,35 @@ class OperationManager
 
         // TODO : utiliser format avec design pattern factory pour gérer différents formats
         $operations = $this->parseOfx($content);
+
+        foreach ($operations as $operation) {
+            $this->em->persist($operation);
+        }
+        $this->em->flush();
     }
 
     private function parseOfx(string $content): array {
-        // TODO : utiliser code existant
-        return [];
+        $operations = [];
+
+        $ofxParser = new \OfxParser\Parser();
+        $ofx = $ofxParser->loadFromString($content);
+        foreach ($ofx->bankAccounts as $bankAccount) {
+
+            $account = $this->accountManager->getByNumber($bankAccount->accountNumber);
+            if ($account == null) {
+                throw new \Exception('Account with number "'.$bankAccount->accountNumber.'" not found');
+            }
+
+            foreach ($bankAccount->statement->transactions as $transaction) {
+                $operation = new Operation();
+                $operation->setName($transaction->name);
+                $operation->setDescription($transaction->memo);
+                $operation->setDate($transaction->date);
+                $operation->setAmount(round($transaction->amount * 100));
+                $operation->setAccount($account);
+                $operations[] = $operation;
+            }
+        }
+        return $operations;
     }
 }
