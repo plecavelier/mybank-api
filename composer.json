@@ -36,7 +36,8 @@
         "phpdocumentor/reflection-docblock": "^3.0",
         "lexik/jwt-authentication-bundle": "^2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "beberlei/DoctrineExtensions": "^1.0"
+        "beberlei/DoctrineExtensions": "^1.0",
+        "asgrim/ofxparser": "1.2.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

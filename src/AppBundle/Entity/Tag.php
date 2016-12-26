@@ -69,6 +69,13 @@ class Tag
      */
     private $user;
 
+    /**
+     * @var array
+     *
+     * @ORM\OneToMany(targetEntity="Operation", mappedBy="tag")
+     */
+    private $operations;
+
 
     /**
      * Get id
@@ -198,6 +205,30 @@ class Tag
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set operations
+     *
+     * @param array $operations
+     *
+     * @return Tag
+     */
+    public function setOperations($operations)
+    {
+        $this->operations = $operations;
+
+        return $this;
+    }
+
+    /**
+     * Get operations
+     *
+     * @return array
+     */
+    public function getOperations()
+    {
+        return $this->operations;
     }
 }
 
