@@ -14,6 +14,7 @@ Pré-requis
 
 * PHP 7
 * MySQL
+$ Composer
 
 Installation
 ------------
