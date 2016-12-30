@@ -74,9 +74,30 @@ l'API est désormais utilisable !
 
 Il est également possible d'accéder à une interface web permettant de visualiser la structure de l'API et d'effectuer des requêtes de test.
 Pour cela, installer un module sur votre navigateur favori permettant d'ajouter des headers à la volée (par exemple [Modify Headers][3] pour Firefox).
-Puis, ajouter le header `Authorization` avec le token et accéder à l'URL `http://127.0.0.1:8000` dans votre navigateur.
+Puis, ajouter le header `Authorization` avec le token et accéder à l'URL `http://127.0.0.1:8000` dans votre navigateur
 
-Credits
+Déploiement
+-----------
+
+L'outil [Deployer][https://deployer.org/] est utilisé pour effectuer les déploiements de l'application.
+
+Dans un premier temps, assurez-vous que votre serveur respecte les pré-requis Symfony : http://symfony.com/doc/current/reference/requirements.html
+
+Puis copier le fichier `servers.yml.dist` vers `servers.yml` et renseigner les paramètres de vos différents environnements (cf. https://deployer.org/docs/servers).
+
+Connectez-vous au serveur MySQL en root et créer un nouvel utilisateur et la base de données associée :
+
+    $ create database mybank;
+    $ create user 'mybank'@'localhost' identified by 'password';
+    $ grant all on mybank.* to 'mybank';
+
+Lancer le déploiement avec la commande suivante :
+
+    $ vendor/bin/dep deploy environment -vvv
+
+Le paramètre `environment` doit correspondre à une clé de votre fichier `servers.yml`.
+
+Crédits
 -------
 
 Créé par [Pierre Lecavelier][3]. 
