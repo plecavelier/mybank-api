@@ -1,14 +1,13 @@
 {
-    "name": "api-platform/api-platform",
-    "license": "MIT",
+    "name": "plecavelier/mybank-api",
     "type": "project",
-    "description": "The API Platform framework",
-    "homepage": "https://api-platform.com",
+    "description": "The MyBank API",
+    "homepage": "https://github.com/plecavelier/mybank-api",
     "authors": [
         {
-            "name": "Kévin Dunglas",
-            "email": "dunglas@gmail.com",
-            "homepage": "https://dunglas.fr"
+            "name": "Pierre Lecavelier",
+            "email": "pierre.lecavelier@gmail.com",
+            "homepage": "https://pierre.crashdump.net"
         }
     ],
     "autoload": {
