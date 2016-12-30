@@ -85,7 +85,7 @@ task('deploy:mysql_dump', function() {
     $sharedPath = "{{deploy_path}}/shared";
     run("mysqldump -h $host --port $port -u \"$user\" -p\"$password\" $name | gzip > $sharedPath/var/dump/$name-dump-$(date +%Y%m%d%H%M%S).sql.gz");
 });
-before('deploy:mysql_dump', 'database:migrate');
+before('database:migrate', 'deploy:mysql_dump');
 
 desc('Restart PHP-FPM service');
 task('php-fpm:restart', function () {
@@ -93,7 +93,7 @@ task('php-fpm:restart', function () {
     // /etc/sudoers: username ALL=NOPASSWD:/bin/systemctl restart php-fpm.service
     run('sudo systemctl restart php-fpm.service');
 });
-after('deploy:symlink', 'php-fpm:restart');
+//after('deploy:symlink', 'php-fpm:restart');
 
 // Migrate database before symlink new release.
 

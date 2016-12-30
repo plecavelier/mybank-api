@@ -97,6 +97,11 @@ Lancer le déploiement avec la commande suivante :
 
 Le paramètre `environment` doit correspondre à une clé de votre fichier `servers.yml`.
 
+Suite au déploiement, pour créer un nouvel utilisateur, se positionner dans le répertoire de déploiement sur le serveur et exécuter les commandes suivantes :
+
+    $ chmod u+x current/bin/console
+    $ current/bin/console fos:user:create --env=prod
+
 Crédits
 -------
 
