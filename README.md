@@ -79,11 +79,11 @@ Puis, ajouter le header `Authorization` avec le token et accéder à l'URL `http
 Déploiement
 -----------
 
-L'outil [Deployer][https://deployer.org/] est utilisé pour effectuer les déploiements de l'application.
+L'outil [Deployer][4] est utilisé pour effectuer les déploiements de l'application.
 
-Dans un premier temps, assurez-vous que votre serveur respecte les pré-requis Symfony : http://symfony.com/doc/current/reference/requirements.html
+Dans un premier temps, assurez-vous que votre serveur respecte les [pré-requis Symfony][5].
 
-Puis copier le fichier `servers.yml.dist` vers `servers.yml` et renseigner les paramètres de vos différents environnements (cf. https://deployer.org/docs/servers).
+Puis copier le fichier `servers.yml.dist` vers `servers.yml` et renseigner les paramètres de vos différents environnements (cf. [section Servers de la doc de Deployer][6]).
 
 Connectez-vous au serveur MySQL en root et créer un nouvel utilisateur et la base de données associée :
 
@@ -102,6 +102,9 @@ Crédits
 
 Créé par [Pierre Lecavelier][3]. 
 
-[1]:  https://github.com/plecavelier/mybank-ui.git
-[2]:  https://api-platform.com/
-[3]:  http://pierre.crashdump.net
+[1]: https://github.com/plecavelier/mybank-ui.git
+[2]: https://api-platform.com/
+[3]: http://pierre.crashdump.net
+[4]: https://deployer.org/
+[5]: http://symfony.com/doc/current/reference/requirements.html
+[6]: https://deployer.org/docs/servers
