@@ -55,6 +55,12 @@ services:
         tags:
             - { name: api_platform.doctrine.orm.query_extension.collection, priority: 9 }
 
+    app.doctrine.orm.query_extension.default_order_extension:
+        class: AppBundle\Doctrine\ORM\Extension\DefaultOrderExtension
+        public: false
+        tags:
+            - { name: api_platform.doctrine.orm.query_extension.collection, priority: 9 }
+
     operation.date_filter:
         parent:    'api_platform.doctrine.orm.date_filter'
         arguments: [ { date: ~ } ]
