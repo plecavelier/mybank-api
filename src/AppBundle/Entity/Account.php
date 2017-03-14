@@ -72,7 +72,7 @@ class Account
     /**
      * @var int
      *
-     * @Groups({"read_account"})
+     * @Groups({"read_account", "write_account"})
      */
     private $balance;
 

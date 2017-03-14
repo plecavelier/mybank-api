@@ -6,6 +6,8 @@ use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use AppBundle\Entity\Account;
+use AppBundle\Entity\Operation;
+use \DateTime;
 
 class AccountManager
 {
@@ -20,6 +22,18 @@ class AccountManager
 
     public function getByNumber(string $number) {
         return $this->em->getRepository('AppBundle:Account')->findOneByNumber($number);
+    }
+
+    public function createFirstOperation(Account $account) {
+        $operation = new Operation();
+        $operation->setName("Initialisation du compte");
+        $operation->setDescription("");
+        $operation->setDate(new DateTime());
+        $operation->setAmount($account->getBalance() ? $account->getBalance() : 0);
+        $operation->setAccount($account);
+
+        $this->em->persist($operation);
+        $this->em->flush();
     }
 
     public function completeBalances($accounts) {

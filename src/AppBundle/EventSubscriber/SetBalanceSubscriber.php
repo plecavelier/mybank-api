@@ -28,7 +28,6 @@ final class SetBalanceSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        // TODO : change event afer persist doctrine
         return [
             KernelEvents::VIEW => ['setBalance', 30],
         ];
