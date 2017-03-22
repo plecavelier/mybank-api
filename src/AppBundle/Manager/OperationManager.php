@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
 use AppBundle\Entity\Account;
 use AppBundle\Entity\Operation;
 use AppBundle\Manager\AccountManager;
+use \DateInterval;
 
 class OperationManager
 {
@@ -54,6 +55,8 @@ class OperationManager
             return new OperationChartData(new \DateTime($row['date']), $row['amount']);
         }, $result);
 
+        $operationChartDatas = $this->fillOperationChartDatas($operationChartDatas, $period);
+
         return $operationChartDatas;
     }
 
@@ -91,5 +94,46 @@ class OperationManager
             }
         }
         return $operations;
+    }
+
+    private function fillOperationChartDatas(array $operationChartDatas, string $period = null): array {
+
+        if (count($operationChartDatas) > 0) {
+            $begin = clone $operationChartDatas[0]->getDate();
+            $end = clone $operationChartDatas[count($operationChartDatas) - 1]->getDate();
+
+            while ($begin <= $end) {
+                $currentDate = clone $begin;
+                $filter = array_filter($operationChartDatas, function($item) use($currentDate) {
+                    return $item->getDate() == $currentDate;
+                });
+                if (count($filter) == 0) {
+                    $operationChartDatas[] = new OperationChartData($currentDate, 0); 
+                }
+
+                switch ($period) {
+                    case 'year':
+                    case 'YEAR':
+                        $begin->add(new DateInterval('P1Y'));
+                        break;
+
+                    case 'quarter':
+                    case 'QUARTER':
+                        $begin->add(new DateInterval('P3M'));
+                        break;
+
+                    case 'month':
+                    case 'MONTH':
+                    default:
+                        $begin->add(new DateInterval('P1M'));
+                        break;
+                }
+            }
+
+            usort($operationChartDatas, function($item1, $item2) {
+                return $item1->getDate()->getTimestamp() - $item2->getDate()->getTimestamp();
+            });
+        }
+        return $operationChartDatas;
     }
 }
