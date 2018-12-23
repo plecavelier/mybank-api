@@ -1,16 +1,37 @@
-web:
-    build: .
-    links:
-        - database
-    volumes:
-        - .:/app
-    ports:
-        - 80:80
+version: '3'
 
-database:
-    image: mysql
-    environment:
-        MYSQL_ROOT_PASSWORD: changeme
-        MYSQL_DATABASE: api_platform
-        MYSQL_USER: api_platform
-        MYSQL_PASSWORD: api_platform
+services:
+    api:
+        build: .
+        links:
+            - database
+            - maildev
+        volumes:
+            - .:/app
+        ports:
+            - 80:80
+
+    database:
+        image: mysql:5.6
+        environment:
+            MYSQL_ROOT_PASSWORD: root_pass
+            MYSQL_DATABASE: mybank
+            MYSQL_USER: mybank_user
+            MYSQL_PASSWORD: mybank_pass
+
+    maildev:
+        image: djfarrelly/maildev
+        ports:
+            - 1080:80
+            - 1025:25
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+            - database
+        environment:
+            - PMA_HOST=database
+            - PMA_USER=root
+            - PMA_PASSWORD=root_pass
+        ports:
+            - 3680:80
