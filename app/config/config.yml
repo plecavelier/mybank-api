@@ -97,6 +97,9 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: AppBundle\Entity\User
+    from_email:
+        address: "noreply@mybank.com"
+        sender_name: "No Reply"
 
 api_platform:
     collection:
