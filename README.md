@@ -12,9 +12,9 @@ Cette API repose sur le framework [API Platform][2] facilitant la création d'AP
 Pré-requis
 ----------
 
-* PHP 7
-* MySQL
-$ Composer
+Installer :
+* Docker
+* Docker Compose
 
 Installation
 ------------
@@ -24,58 +24,47 @@ Faire un clone du dépôt et se positionner dans le répertoire créé :
     $ git clone https://github.com/plecavelier/mybank-api.git
     $ cd mybank-api
 
-Générer les clés SSH nécessaires pour l'authentification JWT :
+Lancer le build de l'image Docker :
 
-    $ mkdir var/jwt
-    $ openssl genrsa -out var/jwt/private.pem -aes256 4096
-    $ openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem
+    $ docker-compose build
 
-Lancer l'installation avec composer et saisir les paramètres adéquats :
+Démarrer le conteneur Docker :
 
-    $ composer install
+    $ docker-compose up -d
 
-Le paramètre `jwt_key_pass_phrase` doit correspondre au mot de passe choisi durant la création des clés SSH.
+Il est maintenant possible d'accéder à :
 
-Créer la base de données :
-
-    $ bin/console doctrine:database:create
-    $ bin/console doctrine:schema:create
-
-Concernant les données, il est possible de créer :
-* un utilisateur avec la commande `$ bin/console fos:user:create`
-* ou un jeu de tests en important les fixtures `$ bin/console doctrine:fixtures:load`
-
-Lancer le serveur HTTP :
-
-    $ bin/console server:run
+- L'API : `http://localhost`
+- Un phpMyAdmin pour administrer la base de données MySQL : `http://localhost:3680`
 
 Tests
 -----
 
 Faire un appel à l'API :
 
-    $ curl http://127.0.0.1:8000
+    $ curl http://localhost
+
+*Remplacer localhost par l'IP ou le nom de l'hôte si le conteneur n'a pas été lancé sur la machine locale.*
 
 Vous devriez obtenir la réponse `{"code":401,"message":"JWT Token not found"}` car l'authentification à l'API n'a pas été effectuée.
 
 Lancer la requête suivante au serveur pour récupérer un token :
 
-    $ curl -X POST http://localhost:8000/login -d username=username -d password=password
+    $ curl -X POST http://localhost/login -d username=username -d password=password
 
-Cet utilisateur correspond à celui importé par les fixtures.
-Si vous avez créé votre propre utilisateur, remplacer les paramètres `username` et `password`.
+Cet utilisateur correspond à celui importé par défaut dans les fixtures.
 
 Refaire un appel à l'API en renseignant le token dans le header `Authorization` :
 
-    $ curl --header "Authorization: Bearer {token}" http://127.0.0.1:8000
+    $ curl --header "Authorization: Bearer {token}" http://localhost
 
 Vous devriez avoir la réponse suivante de l'API `{"@context":"/contexts/Entrypoint","@id":"/","@type":"Entrypoint","account":"/accounts","operation":"/operations","tag":"/tags"}`.
 
-l'API est désormais utilisable !
+L'API est désormais utilisable !
 
 Il est également possible d'accéder à une interface web permettant de visualiser la structure de l'API et d'effectuer des requêtes de test.
 Pour cela, installer un module sur votre navigateur favori permettant d'ajouter des headers à la volée (par exemple [Modify Headers][3] pour Firefox).
-Puis, ajouter le header `Authorization` avec le token et accéder à l'URL `http://127.0.0.1:8000` dans votre navigateur
+Puis, ajouter le header `Authorization` avec le token et accéder à l'URL `http://localhost/api/docs` dans votre navigateur
 
 Déploiement
 -----------
@@ -91,6 +80,10 @@ Connectez-vous au serveur MySQL en root et créer un nouvel utilisateur et la ba
     $ create database mybank;
     $ create user 'mybank'@'localhost' identified by 'password';
     $ grant all on mybank.* to 'mybank';
+    
+A partir de l'environnement local, rentrer ensuite dans le conteneur Docker :
+
+    $ docker-compose exec api bash
 
 Lancer le déploiement avec la commande suivante :
 
