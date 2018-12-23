@@ -64,7 +64,7 @@ L'API est désormais utilisable !
 
 Il est également possible d'accéder à une interface web permettant de visualiser la structure de l'API et d'effectuer des requêtes de test.
 Pour cela, installer un module sur votre navigateur favori permettant d'ajouter des headers à la volée (par exemple [Modify Headers][3] pour Firefox).
-Puis, ajouter le header `Authorization` avec le token et accéder à l'URL `http://localhost/api/docs` dans votre navigateur
+Puis, ajouter le header `Authorization` avec le token et accéder à l'URL `http://localhost/docs` dans votre navigateur
 
 Déploiement
 -----------
