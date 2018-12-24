@@ -55,6 +55,14 @@ class Account
     private $number;
 
     /**
+     * @var boolean
+     *
+     * @Groups({"read_account", "write_account"})
+     * @ORM\Column(name="disabled", type="boolean")
+     */
+    private $disabled = false;
+
+    /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
@@ -157,6 +165,30 @@ class Account
     public function getNumber()
     {
         return $this->number;
+    }
+
+    /**
+     * Set disabled
+     *
+     * @param boolean $disabled
+     *
+     * @return Account
+     */
+    public function setDisabled($disabled)
+    {
+        $this->disabled = $disabled;
+
+        return $this;
+    }
+
+    /**
+     * Get disabled
+     *
+     * @return boolean
+     */
+    public function isDisabled()
+    {
+        return $this->disabled;
     }
 
     /**

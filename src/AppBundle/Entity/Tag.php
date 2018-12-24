@@ -62,6 +62,14 @@ class Tag
     private $color;
 
     /**
+     * @var boolean
+     *
+     * @Groups({"read_tag", "write_tag"})
+     * @ORM\Column(name="disabled", type="boolean")
+     */
+    private $disabled = false;
+
+    /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
@@ -181,6 +189,30 @@ class Tag
     public function getColor()
     {
         return $this->color;
+    }
+
+    /**
+     * Set disabled
+     *
+     * @param boolean $disabled
+     *
+     * @return Tag
+     */
+    public function setDisabled($disabled)
+    {
+        $this->disabled = $disabled;
+
+        return $this;
+    }
+
+    /**
+     * Get disabled
+     *
+     * @return boolean
+     */
+    public function isDisabled()
+    {
+        return $this->disabled;
     }
 
     /**
