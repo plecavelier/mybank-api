@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Action\TagBudgetPut;
+use AppBundle\Action\TagsBudgetGet;
 
 /**
  * Tag
@@ -13,6 +15,27 @@ use Doctrine\ORM\Mapping as ORM;
  *     "normalization_context"={"groups"={"read_tag"}},
  *     "denormalization_context"={"groups"={"write_tag"}},
  *     "pagination_enabled"=false
+ * }, itemOperations={
+ *     "get"={"method"="GET"},
+ *     "put"={"method"="PUT"},
+ *     "delete"={"method"="DELETE"},
+ *     "put_budget"={
+ *         "method"="PUT",
+ *         "path"="/tags/{id}/budget",
+ *         "controller"=TagBudgetPut::class,
+ *         "normalization_context"={"groups"={"read_tag_budget"}},
+ *         "denormalization_context"={"groups"={"write_tag_budget"}}
+ *     }
+ * }, collectionOperations={
+ *     "get"={"method"="GET"},
+ *     "post"={"method"="POST"},
+ *     "get_budget"={
+ *         "method"="GET",
+ *         "path"="/tags/budget",
+ *         "controller"=TagsBudgetGet::class,
+ *         "normalization_context"={"groups"={"read_tags_budget"}},
+ *         "denormalization_context"={"groups"={"write_tags_budget"}}
+ *     }
  * })
  * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TagRepository")
@@ -22,7 +45,7 @@ class Tag
     /**
      * @var int
      *
-     * @Groups({"read_tag", "read_operation"})
+     * @Groups({"read_tag", "read_operation", "read_tags_budget"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -32,7 +55,7 @@ class Tag
     /**
      * @var string
      *
-     * @Groups({"read_tag", "write_tag", "read_operation"})
+     * @Groups({"read_tag", "write_tag", "read_operation", "read_tags_budget"})
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
@@ -48,7 +71,7 @@ class Tag
     /**
      * @var string
      *
-     * @Groups({"read_tag", "write_tag", "read_operation"})
+     * @Groups({"read_tag", "write_tag", "read_operation", "read_tags_budget"})
      * @ORM\Column(name="icon", type="string", length=20, nullable=true)
      */
     private $icon;
@@ -56,7 +79,7 @@ class Tag
     /**
      * @var string
      *
-     * @Groups({"read_tag", "write_tag", "read_operation"})
+     * @Groups({"read_tag", "write_tag", "read_operation", "read_tags_budget"})
      * @ORM\Column(name="color", type="string", length=20, nullable=true)
      */
     private $color;
@@ -83,6 +106,41 @@ class Tag
      * @ORM\OneToMany(targetEntity="Operation", mappedBy="tag")
      */
     private $operations;
+
+    /**
+     * @var TagBudget[]
+     *
+     * @ORM\OneToMany(targetEntity="TagBudget", mappedBy="tag", cascade={"persist"})
+     */
+    private $budgets = [];
+
+    /**
+     * @var int|null
+     *
+     * @Groups({"write_tag_budget", "read_tags_budget"})
+     */
+    private $budgetAmount;
+
+    /**
+     * @var int
+     *
+     * @Groups({"write_tag_budget"})
+     */
+    private $budgetYear;
+
+    /**
+     * @var int
+     *
+     * @Groups({"read_tags_budget"})
+     */
+    private $totalAmount;
+
+    /**
+     * @var int|null
+     *
+     * @Groups({"read_tags_budget"})
+     */
+    private $gap;
 
 
     /**
@@ -261,6 +319,105 @@ class Tag
     public function getOperations()
     {
         return $this->operations;
+    }
+
+    /**
+     * Set budgets
+     *
+     * @param TagBudget[] $budgets
+     *
+     * @return Tag
+     */
+    public function setBudgets($budgets)
+    {
+        $this->budgets = $budgets;
+
+        return $this;
+    }
+
+    /**
+     * Get budgets
+     *
+     * @return TagBudget[]
+     */
+    public function getBudgets()
+    {
+        return $this->budgets;
+    }
+
+    /**
+     * @param TagBudget $budget
+     * @return Tag
+     */
+    public function addBudget(TagBudget $budget): Tag
+    {
+        $budget->setTag($this);
+        $this->budgets[] = $budget;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getBudgetAmount()
+    {
+        return $this->budgetAmount;
+    }
+
+    /**
+     * @param int|null $budgetAmount
+     */
+    public function setBudgetAmount($budgetAmount)
+    {
+        $this->budgetAmount = $budgetAmount;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getBudgetYear(): int
+    {
+        return $this->budgetYear;
+    }
+
+    /**
+     * @param int $budgetYear
+     */
+    public function setBudgetYear(int $budgetYear)
+    {
+        $this->budgetYear = $budgetYear;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalAmount(): int
+    {
+        return $this->totalAmount;
+    }
+
+    /**
+     * @param int $totalAmount
+     */
+    public function setTotalAmount(int $totalAmount)
+    {
+        $this->totalAmount = $totalAmount;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getGap()
+    {
+        return $this->gap;
+    }
+
+    /**
+     * @param int|null $gap
+     */
+    public function setGap($gap)
+    {
+        $this->gap = $gap;
     }
 }
 

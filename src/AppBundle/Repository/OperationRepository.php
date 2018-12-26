@@ -36,6 +36,20 @@ class OperationRepository extends \Doctrine\ORM\EntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    public function sumAmountByTag(\DateTime $startDate, \DateTime $endDate) {
+        $queryBuilder = $this->_em->createQueryBuilder();
+        $queryBuilder->select('t.id AS tag, SUM(o.amount) AS amount')
+            ->from('AppBundle:Operation', 'o')
+            ->leftJoin('o.tag', 't')
+            ->where('o.date >= :startDate')
+            ->andWhere('o.date < :endDate')
+            ->groupBy('t')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate);
+        $results = $queryBuilder->getQuery()->getResult();
+        return array_combine(array_column($results, 'tag'), array_column($results, 'amount'));
+    }
+
     public function sumAmountByPeriod(User $user, string $period = null, array $accountIds = null, array $tagIds = null) {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('SUM(o.amount) AS amount')
